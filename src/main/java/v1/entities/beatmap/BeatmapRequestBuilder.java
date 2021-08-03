@@ -1,6 +1,6 @@
 package v1.entities.beatmap;
 
-import v1.ApiV1Handler;
+import v1.ApiHandler;
 import v1.entities.RequestBuilder;
 import v1.entities.global.Mod;
 import v1.entities.global.Mode;
@@ -104,12 +104,12 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
     }
 
     public String getUrl() {
-        StringBuilder url = new StringBuilder(ApiV1Handler.startUrl);
+        StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_beatmaps?k=").append(key);
 
         if (since != null) {
-            url.append("&since=").append(since.toString());
+            url.append("&since=").append(since);
         }
 
         if (beatmapSetId != null) {

@@ -1,6 +1,6 @@
 package v1.entities.multiplayer;
 
-import v1.ApiV1Handler;
+import v1.ApiHandler;
 import v1.entities.RequestBuilder;
 
 public class MatchRequestBuilder extends RequestBuilder<MatchRequestBuilder> {
@@ -21,7 +21,7 @@ public class MatchRequestBuilder extends RequestBuilder<MatchRequestBuilder> {
 
     @Override
     public String getUrl() {
-        StringBuilder url = new StringBuilder(ApiV1Handler.startUrl);
+        StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_match?k=").append(key);
 

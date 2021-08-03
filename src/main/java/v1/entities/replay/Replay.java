@@ -1,15 +1,12 @@
 package v1.entities.replay;
 
 import com.google.gson.JsonObject;
-import lzma.streams.LzmaOutputStream;
 import v1.entities.OsuEntity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class Replay implements OsuEntity {
@@ -21,7 +18,7 @@ public class Replay implements OsuEntity {
 
         byte[] decodedBytes = Base64.getDecoder().decode(content);
 
-        FileOutputStream fileOutputStream = new FileOutputStream(new File("C:\\Users\\Tijs\\Documents\\OsuApiWrapper\\test.zip"));
+        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Tijs\\Documents\\OsuApiWrapper\\test.zip");
 
         try {
             fileOutputStream.write(decodedBytes);

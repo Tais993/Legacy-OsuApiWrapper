@@ -1,17 +1,60 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'maven-publish'
 }
 
-group 'org.example'
+group 'nl.tijsbeek'
 version '1.0-SNAPSHOT'
 
+sourceCompatibility = 16
+
+String userName = "0c2e69ef-6f19-420c-800f-77cd73f50a35"
+String passWord = "4a7a4c5b60918e4263f236ac823543c31708b4b37b09df22543a7db617aabfb5"
+
 repositories {
+    maven {
+        url "https://maven.pkg.jetbrains.space/tijsbeek/p/osu-api-wrapper/nl-tijsbeek"
+        credentials {
+            username = userName
+            password = passWord
+        }
+    }
+
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.github.jponge:lzma-java:1.2'
-    implementation group: 'org.tukaani', name: 'xz', version: '1.8'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.github.jponge:lzma-java:1.3'
+    implementation group: 'org.tukaani', name: 'xz', version: '1.9'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.intellij:annotations:12.0'
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "nl.tijsbeek"
+            artifactId = "OsuApiWrapperV1"
+            version = "1.0-SNAPSHOT"
+            from components.java
+
+            pom {
+                name = 'OsuApiWrapperV1'
+                description = 'A Java Osu Api Wrapper for the osu api v1'
+                url = 'https://github.com/Tais993/OsuApiWrapper'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.pkg.jetbrains.space/tijsbeek/p/osu-api-wrapper/nl-tijsbeek"
+            credentials {
+                username = userName
+                password = passWord
+            }
+        }
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'

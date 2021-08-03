@@ -1,6 +1,6 @@
 package v1.entities.replay;
 
-import v1.ApiV1Handler;
+import v1.ApiHandler;
 import v1.entities.RequestBuilder;
 import v1.entities.global.Mod;
 import v1.entities.global.Mode;
@@ -69,7 +69,7 @@ public class ReplayRequestBuilder extends RequestBuilder<ReplayRequestBuilder> {
 
     @Override
     public String getUrl() {
-        StringBuilder url = new StringBuilder(ApiV1Handler.startUrl);
+        StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_replay?k=").append(key);
 

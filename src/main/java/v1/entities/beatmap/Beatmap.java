@@ -1,8 +1,6 @@
 package v1.entities.beatmap;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import v1.entities.OsuEntity;
+import org.jetbrains.annotations.NotNull;
 import v1.entities.global.Length;
 import v1.entities.global.Mode;
 
@@ -10,391 +8,213 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-public class Beatmap implements OsuEntity {
-    private final long beatmapSetId;
-    private final long beatmapId;
+public interface Beatmap {
 
-    private final Approved approved;
+    long beatmapSetId();
 
-    private final Length length;
-    private final int hitLength;
+    long beatmapId();
 
-    private final String version;
-    private final String fileMd5;
+    @NotNull
+    Approved approved();
 
-    private final double diffSize;
-    private final double diffOverall;
-    private final double diffApproach;
-    private final double diffDrain;
+    @NotNull
+    Length length();
 
-    private final Mode mode;
+    int hitLength();
 
-    private final int countNormal;
-    private final int countSlider;
-    private final int countSpinner;
+    @NotNull
+    String version();
 
-    private final LocalDateTime submitDate;
-    private final LocalDateTime approvedDate;
-    private final LocalDateTime lastUpdateDate;
+    @NotNull
+    String fileMd5();
 
-    private final String artist;
+    double diffSize();
 
-    private final String title;
+    double diffOverall();
 
-    private final String creatorName;
-    private final long creatorId;
+    double diffApproach();
 
-    private final double bpm;
+    double diffDrain();
 
-    private final String source;
-    private final ArrayList<String> tags;
-    private final Genre genre;
-    private final Language language;
+    @NotNull
+    Mode mode();
 
-    private final int favouriteCount;
-    private final double rating;
+    int countNormal();
 
-    private final boolean storyboard;
-    private final boolean video;
-    private final boolean downloadUnavailable;
-    private final boolean audioUnavailable;
+    int countSlider();
 
-    private final int playCount;
-    private final int passCount;
+    int countSpinner();
 
-    private final ArrayList<String> packs;
+    @NotNull
+    LocalDateTime submitDate();
 
-    private final int maxCombo;
+    @NotNull
+    LocalDateTime approvedDate();
 
-    private final double diffAim;
-    private final double diffSpeed;
-    private final double difficultyRating;
+    @NotNull
+    LocalDateTime lastUpdateDate();
 
+    @NotNull
+    String artist();
 
-    public Beatmap(JsonObject json) {
-        this.beatmapSetId = json.get("beatmapset_id").getAsLong();
-        this.beatmapId = json.get("beatmap_id").getAsLong();
+    @NotNull
+    String title();
 
-        this.approved = Approved.fromId(json.get("approved").getAsInt());
+    @NotNull
+    String creatorName();
 
-        this.length = new Length(json.get("total_length").getAsInt());
-        this.hitLength = json.get("hit_length").getAsInt();
+    long creatorId();
 
-        this.version = json.get("version").getAsString();
+    double bpm();
 
-        this.fileMd5 = json.get("file_md5").getAsString();
+    @NotNull
+    String source();
 
-        this.diffSize = json.get("diff_size").getAsDouble();
-        this.diffOverall = json.get("diff_overall").getAsDouble();
-        this.diffApproach = json.get("diff_approach").getAsDouble();
-        this.diffDrain = json.get("diff_drain").getAsDouble();
+    @NotNull
+    List<String> tags();
 
-        this.mode = Mode.getById(json.get("mode").getAsInt());
+    @NotNull
+    Genre genre();
 
-        this.countNormal = json.get("count_normal").getAsInt();
-        this.countSlider = json.get("count_slider").getAsInt();
-        this.countSpinner = json.get("count_spinner").getAsInt();
+    @NotNull
+    Language language();
 
-        this.submitDate = getDateFromString(json.get("submit_date").getAsString());
-        JsonElement approvedDate = json.get("approved_date");
+    int favouriteCount();
 
-        this.approvedDate = approvedDate.isJsonNull() ? null : getDateFromString(approvedDate.getAsString());
+    double rating();
 
-        this.lastUpdateDate = getDateFromString(json.get("last_update").getAsString());
+    boolean storyboard();
 
-        this.artist = json.get("artist").getAsString();
-        this.title = json.get("title").getAsString();
+    boolean video();
 
-        this.creatorName = json.get("creator").getAsString();
-        this.creatorId = json.get("creator_id").getAsLong();
+    boolean downloadUnavailable();
 
-        this.bpm = json.get("bpm").getAsDouble();
+    boolean audioUnavailable();
 
-        this.source = json.get("source").getAsString();
-        this.tags = new ArrayList<>(Arrays.asList(json.get("tags").getAsString().split(" ")));
-        this.genre = Genre.getById(json.get("genre_id").getAsInt());
-        this.language = Language.getById(json.get("language_id").getAsInt());
+    int playCount();
 
-        this.favouriteCount = json.get("favourite_count").getAsInt();
-        this.rating = json.get("rating").getAsDouble();
+    int passCount();
 
-        this.storyboard = json.get("storyboard").getAsBoolean();
-        this.video = json.get("video").getAsBoolean();
-        this.downloadUnavailable = json.get("download_unavailable").getAsBoolean();
-        this.audioUnavailable = json.get("audio_unavailable").getAsBoolean();
+    @NotNull
+    List<String> packs();
 
-        this.playCount = json.get("playcount").getAsInt();
-        this.passCount = json.get("passcount").getAsInt();
+    int maxCombo();
 
-        if (json.get("packs").isJsonNull()) {
-            this.packs = new ArrayList<>();
-        } else {
-            this.packs = new ArrayList<>(Arrays.asList(json.get("packs").getAsString().split(",")));
+    double diffAim();
+
+    double diffSpeed();
+
+    double difficultyRating();
+
+    @NotNull
+    String beatmapCoverImageUrl();
+
+    @NotNull
+    InputStream retrieveBeatmapCoverImage();
+
+    @NotNull
+    String beatmapCoverThumbnailUrl();
+
+    @NotNull
+    InputStream retrieveBeatmapCoverThumbnail();
+
+    @NotNull
+    String beatmapLink();
+
+    enum Genre {
+        ANY(0, "any"),
+        UNSPECIFIED(1, "unspecified"),
+        VIDEO_GAME(2, "video game"),
+        ANIME(3, "anime"),
+        ROCK(4, "rock"),
+        POP(5, "pop"),
+        OTHER(6, "other"),
+        NOVELTY(7, "novelty"),
+        HIPHOP(9, "hiphop"),
+        ELECTRONIC(10, "electronic"),
+        METAL(11, "metal"),
+        CLASSICAL(12, "classical"),
+        FOLK(13, "folk"),
+        JAZZ(14, "jazz");
+
+        private final int id;
+        private final String title;
+
+        Genre(int id, String title) {
+            this.id = id;
+            this.title = title;
+        }
+        public int getId() {
+            return id;
         }
 
-        this.maxCombo = json.get("max_combo").getAsInt();
-
-        this.diffAim = json.get("diff_aim").getAsDouble();
-        this.diffSpeed = json.get("diff_speed").getAsDouble();
-
-        this.difficultyRating = json.get("difficultyrating").getAsDouble();
-    }
-
-    private LocalDateTime getDateFromString(String timeAsString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(timeAsString, formatter);
-    }
-
-    public long getBeatmapSetId() {
-        return beatmapSetId;
-    }
-
-    public long getBeatmapId() {
-        return beatmapId;
-    }
-
-    public Approved getApproved() {
-        return approved;
-    }
-
-    public Length getLength() {
-        return length;
-    }
-
-    public int getHitLength() {
-        return hitLength;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public String getFileMd5() {
-        return fileMd5;
-    }
-
-    public double getDiffSize() {
-        return diffSize;
-    }
-
-    public double getDiffOverall() {
-        return diffOverall;
-    }
-
-    public double getDiffApproach() {
-        return diffApproach;
-    }
-
-    public double getDiffDrain() {
-        return diffDrain;
-    }
-
-    public Mode getMode() {
-        return mode;
-    }
-
-    public int getCountNormal() {
-        return countNormal;
-    }
-
-    public int getCountSlider() {
-        return countSlider;
-    }
-
-    public int getCountSpinner() {
-        return countSpinner;
-    }
-
-    public LocalDateTime getSubmitDate() {
-        return submitDate;
-    }
-
-    public LocalDateTime getApprovedDate() {
-        return approvedDate;
-    }
-
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getCreatorName() {
-        return creatorName;
-    }
-
-    public long getCreatorId() {
-        return creatorId;
-    }
-
-    public double getBpm() {
-        return bpm;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public ArrayList<String> getTags() {
-        return tags;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public int getFavouriteCount() {
-        return favouriteCount;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public boolean isStoryboard() {
-        return storyboard;
-    }
-
-    public boolean isVideo() {
-        return video;
-    }
-
-    public boolean isDownloadUnavailable() {
-        return downloadUnavailable;
-    }
-
-    public boolean isAudioUnavailable() {
-        return audioUnavailable;
-    }
-
-    public int getPlayCount() {
-        return playCount;
-    }
-
-    public int getPassCount() {
-        return passCount;
-    }
-
-    public ArrayList<String> getPacks() {
-        return packs;
-    }
-
-    public int getMaxCombo() {
-        return maxCombo;
-    }
-
-    public double getDiffAim() {
-        return diffAim;
-    }
-
-    public double getDiffSpeed() {
-        return diffSpeed;
-    }
-
-    public double getDifficultyRating() {
-        return difficultyRating;
-    }
-
-    public String getBeatmapCoverImageUrl() {
-        return "https://assets.ppy.sh/beatmaps/" + beatmapId + "/covers/cover.jpg";
-    }
-
-    public InputStream retrieveBeatmapCoverImage() {
-        try {
-            URL url = new URL( "https://assets.ppy.sh/beatmaps/" + beatmapId + "/covers/cover.jpg");
-            return url.openStream();
-        } catch (IOException e) {
-            e.printStackTrace();
+        public String getTitle() {
+            return title;
         }
-        throw new NullPointerException();
-    }
 
-    public String getBeatmapCoverThumbnailUrl() {
-        return "https://b.ppy.sh/thumb/" + beatmapId + "l.jpg";
-    }
-
-    public InputStream retrieveBeatmapCoverThumbnail() {
-        try {
-            URL url = new URL( "https://b.ppy.sh/thumb/" + beatmapId + "l.jpg");
-            return url.openStream();
-        } catch (IOException e) {
-            e.printStackTrace();
+        public static Genre getById(int id) {
+            for (Genre genre : Genre.values()) {
+                if (genre.getId() == id) {
+                    return genre;
+                }
+            }
+            return null;
         }
-        throw new NullPointerException();
+
+        @Override
+        public String toString() {
+            return id + "";
+        }
     }
 
-    public String getBeatmapLink() {
-        return "https://osu.ppy.sh/beatmapsets/" + beatmapSetId + "#" + mode.getTitle().toLowerCase() + "/" + beatmapId;
-    }
+    enum Language {
+        ANY(0, "any"),
+        UNSPECIFIED(1, "unspecified"),
+        ENGLISH(2, "english"),
+        JAPANESE(3, "japanese"),
+        CHINESE(4, "chinese"),
+        INSTRUMENTAL(5, "instrumental"),
+        KOREAN(6, "korean"),
+        FRENCH(7, "french"),
+        GERMAN(8, "german"),
+        SWEDISH(9, "swedish"),
+        SPANISH(10, "spanish"),
+        ITALIAN(11, "italian"),
+        RUSSIAN(12, "russian"),
+        POLISH(13, "polish"),
+        OTHER(14, "other");
 
-    @Override
-    public Long getId() {
-        return beatmapId;
-    }
+        private final int id;
+        private final String title;
 
-    @Override
-    public String getIdString() {
-        return beatmapId + "";
-    }
+        Language(int id, String title) {
+            this.id = id;
+            this.title = title;
+        }
 
-    @Override
-    public String toString() {
-        return "Beatmap{" +
-                "\nbeatmapLink=" + getBeatmapLink() +
-                "\nbeatmapSetId=" + beatmapSetId +
-                ",\n beatmapId=" + beatmapId +
-                ",\n approved=" + approved +
-                ",\n length=" + length +
-                ",\n hitLength=" + hitLength +
-                ",\n version='" + version + '\'' +
-                ",\n fileMd5='" + fileMd5 + '\'' +
-                ",\n diffSize=" + diffSize +
-                ",\n diffOverall=" + diffOverall +
-                ",\n diffApproach=" + diffApproach +
-                ",\n diffDrain=" + diffDrain +
-                ",\n mode=" + mode +
-                ",\n countNormal=" + countNormal +
-                ",\n countSlider=" + countSlider +
-                ",\n countSpinner=" + countSpinner +
-                ",\n submitDate=" + submitDate +
-                ",\n approvedDate=" + approvedDate +
-                ",\n lastUpdateDate=" + lastUpdateDate +
-                ",\n artist='" + artist + '\'' +
-                ",\n title='" + title + '\'' +
-                ",\n creatorName='" + creatorName + '\'' +
-                ",\n creatorId=" + creatorId +
-                ",\n bpm=" + bpm +
-                ",\n source='" + source + '\'' +
-                ",\n tags=" + tags +
-                ",\n genre=" + genre +
-                ",\n language=" + language +
-                ",\n favouriteCount=" + favouriteCount +
-                ",\n rating=" + rating +
-                ",\n storyboard=" + storyboard +
-                ",\n video=" + video +
-                ",\n downloadUnavailable=" + downloadUnavailable +
-                ",\n audioUnavailable=" + audioUnavailable +
-                ",\n playCount=" + playCount +
-                ",\n passCount=" + passCount +
-                ",\n packs=" + packs +
-                ",\n maxCombo=" + maxCombo +
-                ",\n diffAim=" + diffAim +
-                ",\n diffSpeed=" + diffSpeed +
-                ",\n difficultyRating=" + difficultyRating +
-                "\n}";
+        public int getId() {
+            return id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public static Language getById(int id) {
+            for (Language language : Language.values()) {
+                if (language.getId() == id) {
+                    return language;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            return id + "";
+        }
     }
 }

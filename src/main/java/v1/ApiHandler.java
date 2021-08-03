@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import futures.Future;
 import futures.FutureImpl;
-import futures.SetFutureImpl;
 import osu.OsuSettings;
-import v1.entities.beatmap.Beatmap;
+import v1.entities.beatmap.BeatmapImpl;
 import v1.entities.beatmap.BeatmapRequestBuilder;
 import v1.entities.bestperformance.BestPerformance;
 import v1.entities.bestperformance.BestPerformanceRequestBuilder;
@@ -27,50 +27,47 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 
-public class ApiV1Handler {
+public class ApiHandler {
     private final String key;
     public final static String startUrl = "https://osu.ppy.sh/api/";
     private final ArrayBlockingQueue<Runnable> blockingQueue;
     private final ExecutorService executorService;
 
-    public ApiV1Handler(OsuSettings osuS) {
-        this.key = osuS.getKeyV1();
+    public ApiHandler(OsuSettings osuS) {
+        this.key = osuS.getKey();
 
-        if (osuS.useSeparateQueues()) {
-            this.blockingQueue = osuS.getV1Queue();
-            this.executorService = osuS.getV1Executor();
-        } else {
-            this.blockingQueue = osuS.getBlockingQueue();
-            this.executorService = osuS.getExecutorService();
-        }
+        this.blockingQueue = osuS.getBlockingQueue();
+        this.executorService = osuS.getExecutorService();
     }
 
-    public FutureImpl<Beatmap> retrieveBeatmap(BeatmapRequestBuilder beatmapRequestBuilder) {
-        Callable<Beatmap> callable = () -> {
+    public Future<BeatmapImpl> retrieveBeatmap(BeatmapRequestBuilder beatmapRequestBuilder) {
+        Callable<BeatmapImpl> callable = () -> {
             beatmapRequestBuilder.setKey(key);
             System.out.println(beatmapRequestBuilder.getUrl());
 
-            return new Beatmap(getJsonArray(beatmapRequestBuilder.getUrl()).get(0).getAsJsonObject());
+            return BeatmapImpl.getBeatmapFromJson(getJsonArray(beatmapRequestBuilder.getUrl()).get(0).getAsJsonObject());
         };
 
         return new FutureImpl<>(callable, executorService);
     }
 
-    public SetFutureImpl<Beatmap, Set<Beatmap>> retrieveBeatmaps(BeatmapRequestBuilder beatmapRequestBuilder) {
-        Callable<Set<Beatmap>> callable = () -> {
-            Set<Beatmap> beatmaps = new HashSet<>();
+    public Future<Set<BeatmapImpl>> retrieveBeatmaps(BeatmapRequestBuilder beatmapRequestBuilder) {
+        Callable<Set<BeatmapImpl>> callable = () -> {
+            Set<BeatmapImpl> beatmaps = new HashSet<>();
 
             beatmapRequestBuilder.setKey(key);
             JsonArray json = getJsonArray(beatmapRequestBuilder.getUrl());
 
-            json.forEach(jsonElement -> beatmaps.add(new Beatmap(jsonElement.getAsJsonObject())));
+            json.forEach(jsonElement -> beatmaps.add(BeatmapImpl.getBeatmapFromJson(jsonElement.getAsJsonObject())));
 
             return beatmaps;
         };
 
-        return new SetFutureImpl<>(callable, executorService);
+        return new FutureImpl<>(callable, executorService);
     }
 
     public FutureImpl<User> retrieveUser(UserRequestBuilder userRequestBuilder) {
@@ -85,7 +82,7 @@ public class ApiV1Handler {
         return new FutureImpl<>(callable, executorService);
     }
 
-    public SetFutureImpl<Score, Set<Score>> retrieveScores(ScoresRequestBuilder scoresRequestBuilder) {
+    public Future<Set<Score>> retrieveScores(ScoresRequestBuilder scoresRequestBuilder) {
         Callable<Set<Score>> callable = () -> {
             Set<Score> scores = new HashSet<>();
 
@@ -98,10 +95,10 @@ public class ApiV1Handler {
             return scores;
         };
 
-        return new SetFutureImpl<>(callable, executorService);
+        return new FutureImpl<>(callable, executorService);
     }
 
-    public SetFutureImpl<BestPerformance, Set<BestPerformance>> retrieveBestPerformance(BestPerformanceRequestBuilder bestPerformanceRequestBuilder) {
+    public Future<Set<BestPerformance>> retrieveBestPerformance(BestPerformanceRequestBuilder bestPerformanceRequestBuilder) {
         Callable<Set<BestPerformance>> callable = () -> {
             Set<BestPerformance> bestPerformances = new HashSet<>();
 
@@ -116,7 +113,7 @@ public class ApiV1Handler {
             return bestPerformances;
         };
 
-        return new SetFutureImpl<>(callable, executorService);
+        return new FutureImpl<>(callable, executorService);
     }
 
     public FutureImpl<Match> retrieveMatchInfo(MatchRequestBuilder matchRequestBuilder) {

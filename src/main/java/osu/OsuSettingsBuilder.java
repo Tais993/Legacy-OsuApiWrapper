@@ -1,8 +1,7 @@
 package osu;
 
 public class OsuSettingsBuilder {
-    private String keyV1 = "";
-    private String keyV2 = "";
+    private String key = "";
 
     private int threadCount = 1;
     private int maxThreadCount = 10;
@@ -10,22 +9,13 @@ public class OsuSettingsBuilder {
 
     private boolean separateQueues = false;
 
-    public OsuSettingsBuilder setKeyV1(String keyV1) {
-        this.keyV1 = keyV1;
+    public OsuSettingsBuilder setKey(String key) {
+        this.key = key;
         return this;
     }
 
-    protected String getKeyV1() {
-        return keyV1;
-    }
-
-    public OsuSettingsBuilder setKeyV2(String keyV2) {
-        this.keyV2 = keyV2;
-        return this;
-    }
-
-    protected String getKeyV2() {
-        return keyV2;
+    protected String getKey() {
+        return key;
     }
 
     public OsuSettingsBuilder setThreadCount(int threadCount) {
@@ -65,6 +55,9 @@ public class OsuSettingsBuilder {
     }
 
     public OsuSettings build() {
+        if (key == null) {
+            throw new IllegalArgumentException("Key can't be null!");
+        }
         return new OsuSettings(this);
     }
 }

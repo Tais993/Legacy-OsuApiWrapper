@@ -1,6 +1,6 @@
 package v1.entities.bestperformance;
 
-import v1.ApiV1Handler;
+import v1.ApiHandler;
 import v1.entities.RequestBuilder;
 import v1.entities.global.Mode;
 import v1.entities.global.Type;
@@ -45,7 +45,7 @@ public class BestPerformanceRequestBuilder extends RequestBuilder<BestPerformanc
 
     @Override
     public String getUrl() {
-        StringBuilder url = new StringBuilder(ApiV1Handler.startUrl);
+        StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_user_best?k=").append(key);
 
