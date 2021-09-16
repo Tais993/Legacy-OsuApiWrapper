@@ -5,6 +5,7 @@ import v1.entities.OsuEntity;
 import v1.entities.global.Mod;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MatchScore implements OsuEntity {
     private final int slot;
@@ -29,7 +30,7 @@ public class MatchScore implements OsuEntity {
     private final boolean hasPassed;
     private final int perfect;
 
-    private final ArrayList<Mod> mods;
+    private final List<Mod> mods;
 
     public MatchScore(JsonObject json) {
         this.slot = json.get("slot").getAsInt();
@@ -103,7 +104,7 @@ public class MatchScore implements OsuEntity {
         return perfect;
     }
 
-    public ArrayList<Mod> getMods() {
+    public List<Mod> getMods() {
         return mods;
     }
 

@@ -11,7 +11,7 @@ public class OsuSettings {
     private final ArrayBlockingQueue<Runnable> blockingQueue;
     private final ExecutorService executorService;
 
-    public OsuSettings(OsuSettingsBuilder osuSB) {
+    public OsuSettings(OsuBuilder osuSB) {
         key = osuSB.getKey();
 
         blockingQueue = new ArrayBlockingQueue<>(osuSB.getQueueCapacity());

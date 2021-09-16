@@ -1,6 +1,7 @@
 package v1.entities.beatmap;
 
 import v1.ApiHandler;
+import v1.Route;
 import v1.entities.RequestBuilder;
 import v1.entities.global.Mod;
 import v1.entities.global.Mode;
@@ -10,14 +11,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder> {
+public class BeatmapRequestBuilder extends RequestBuilder {
     private String key;
 
     private LocalDate since;
 
-    private Long beatmapSetId;
-    private Long beatmapId;
+    private long beatmapSetId;
+    private long beatmapId;
 
     private String user;
 
@@ -25,13 +27,13 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
 
     private Mode mode;
 
-    private Boolean includesConvertedBeatmaps = false;
+    private boolean includesConvertedBeatmaps = false;
 
     private String beatmapHash;
 
     private int limit;
 
-    private final ArrayList<Mod> mods = new ArrayList<>();
+    private final List<Mod> mods = new ArrayList<>();
 
     @Override
     public BeatmapRequestBuilder setKey(String key) {
@@ -44,12 +46,12 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
         return this;
     }
 
-    public BeatmapRequestBuilder setBeatmapSetId(Long beatmapSetId) {
+    public BeatmapRequestBuilder setBeatmapSetId(long beatmapSetId) {
         this.beatmapSetId = beatmapSetId;
         return this;
     }
 
-    public BeatmapRequestBuilder setBeatmapId(Long beatmapId) {
+    public BeatmapRequestBuilder setBeatmapId(long beatmapId) {
         this.beatmapId = beatmapId;
         return this;
     }
@@ -60,7 +62,7 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
         return this;
     }
 
-    public BeatmapRequestBuilder setUserId(Long userId) {
+    public BeatmapRequestBuilder setUserId(long userId) {
         this.user = userId + "";
         this.type = Type.USER_ID;
         return this;
@@ -71,7 +73,7 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
         return this;
     }
 
-    public BeatmapRequestBuilder includesConvertedBeatmaps(Boolean includesConvertedBeatmaps) {
+    public BeatmapRequestBuilder includesConvertedBeatmaps(boolean includesConvertedBeatmaps) {
         this.includesConvertedBeatmaps = includesConvertedBeatmaps;
         return this;
     }
@@ -103,20 +105,18 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
         return this;
     }
 
-    public String getUrl() {
-        StringBuilder url = new StringBuilder(ApiHandler.startUrl);
-
-        url.append("get_beatmaps?k=").append(key);
+    public String toUrl() {
+        StringBuilder url = new StringBuilder(Route.GET_BEATMAPS.compile(key));
 
         if (since != null) {
             url.append("&since=").append(since);
         }
 
-        if (beatmapSetId != null) {
+        if (beatmapSetId != 0) {
             url.append("&s=").append(beatmapSetId);
         }
 
-        if (beatmapId != null) {
+        if (beatmapId != 0) {
             url.append("&b=").append(beatmapId);
         }
 
@@ -144,8 +144,6 @@ public class BeatmapRequestBuilder extends RequestBuilder<BeatmapRequestBuilder>
             url.append("&limit=").append(limit);
         }
 
-        System.out.println(mods);
-        System.out.println(mods.isEmpty());
         if (!mods.isEmpty()) {
             url.append("&mods=").append(Mod.getBitwiseFromMods(mods));
         }

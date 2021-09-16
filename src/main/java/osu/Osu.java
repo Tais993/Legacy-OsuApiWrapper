@@ -1,18 +1,10 @@
 package osu;
 
-import v1.ApiHandler;
+import futures.Future;
+import v1.entities.beatmap.Beatmap;
+import v1.entities.beatmap.BeatmapImpl;
+import v1.entities.beatmap.BeatmapRequestBuilder;
 
-public class Osu {
-    private String keyV1;
-
-    private ApiHandler apiHandler;
-
-    public Osu(OsuSettings osuSettings) {
-        this.keyV1 = osuSettings.getKey();
-
-    }
-
-    public ApiHandler getV1() {
-        return apiHandler;
-    }
+public interface Osu {
+    Future<Beatmap> retrieveBeatmap(BeatmapRequestBuilder beatmapRequestBuilder);
 }

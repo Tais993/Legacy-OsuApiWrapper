@@ -1,11 +1,11 @@
 package v1.entities;
 
-public class RequestBuilder<T extends RequestBuilder<?>> {
-    public T setKey(String key) {
+public class RequestBuilder {
+    public RequestBuilder setKey(String key) {
         return null;
     }
 
-    public String getUrl() {
+    public String toUrl() {
         return null;
     }
 }

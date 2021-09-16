@@ -1,6 +1,6 @@
 package osu;
 
-public class OsuSettingsBuilder {
+public class OsuBuilder {
     private String key = "";
 
     private int threadCount = 1;
@@ -9,7 +9,7 @@ public class OsuSettingsBuilder {
 
     private boolean separateQueues = false;
 
-    public OsuSettingsBuilder setKey(String key) {
+    public OsuBuilder setKey(String key) {
         this.key = key;
         return this;
     }
@@ -18,7 +18,7 @@ public class OsuSettingsBuilder {
         return key;
     }
 
-    public OsuSettingsBuilder setThreadCount(int threadCount) {
+    public OsuBuilder setThreadCount(int threadCount) {
         this.threadCount = threadCount;
         return this;
     }
@@ -27,7 +27,7 @@ public class OsuSettingsBuilder {
         return threadCount;
     }
 
-    public OsuSettingsBuilder setMaxQueueCapacity(int queueCapacity) {
+    public OsuBuilder setMaxQueueCapacity(int queueCapacity) {
         this.queueCapacity = queueCapacity;
         return this;
     }
@@ -36,7 +36,7 @@ public class OsuSettingsBuilder {
         return queueCapacity;
     }
 
-    public OsuSettingsBuilder setMaxThreadCount(int maxThreadCount) {
+    public OsuBuilder setMaxThreadCount(int maxThreadCount) {
         this.maxThreadCount = maxThreadCount;
         return this;
     }
@@ -45,7 +45,7 @@ public class OsuSettingsBuilder {
         return maxThreadCount;
     }
 
-    public OsuSettingsBuilder isSeparateQueues(boolean separateQueues) {
+    public OsuBuilder isSeparateQueues(boolean separateQueues) {
         this.separateQueues = separateQueues;
         return this;
     }
@@ -54,10 +54,10 @@ public class OsuSettingsBuilder {
         return separateQueues;
     }
 
-    public OsuSettings build() {
+    public Osu build() {
         if (key == null) {
             throw new IllegalArgumentException("Key can't be null!");
         }
-        return new OsuSettings(this);
+        return new OsuImpl(new OsuSettings(this));
     }
 }

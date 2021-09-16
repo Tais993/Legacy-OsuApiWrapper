@@ -5,7 +5,7 @@ import v1.entities.RequestBuilder;
 import v1.entities.global.Mode;
 import v1.entities.global.Type;
 
-public class UserRequestBuilder extends RequestBuilder<UserRequestBuilder> {
+public class UserRequestBuilder extends RequestBuilder {
     private String key;
 
     private String user;
@@ -48,7 +48,7 @@ public class UserRequestBuilder extends RequestBuilder<UserRequestBuilder> {
     }
 
     @Override
-    public String getUrl() {
+    public String toUrl() {
         StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_user?k=").append(key);

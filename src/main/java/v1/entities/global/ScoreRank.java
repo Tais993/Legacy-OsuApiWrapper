@@ -26,6 +26,6 @@ public enum ScoreRank {
                 return scoreRank;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Invalid ID");
     }
 }

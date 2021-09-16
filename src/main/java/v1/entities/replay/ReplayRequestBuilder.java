@@ -9,7 +9,7 @@ import v1.entities.global.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ReplayRequestBuilder extends RequestBuilder<ReplayRequestBuilder> {
+public class ReplayRequestBuilder extends RequestBuilder {
     private String key;
 
     private long beatmapId;
@@ -68,7 +68,7 @@ public class ReplayRequestBuilder extends RequestBuilder<ReplayRequestBuilder> {
     }
 
     @Override
-    public String getUrl() {
+    public String toUrl() {
         StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_replay?k=").append(key);

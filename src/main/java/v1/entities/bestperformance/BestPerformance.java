@@ -8,6 +8,7 @@ import v1.entities.global.ScoreRank;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static v1.entities.global.ScoreRank.getRankByString;
 
@@ -28,7 +29,7 @@ public class BestPerformance implements OsuEntity {
 
     private final int perfect;
 
-    private final ArrayList<Mod> mods;
+    private final List<Mod> mods;
 
     private final long userId;
 
@@ -107,7 +108,7 @@ public class BestPerformance implements OsuEntity {
         return perfect;
     }
 
-    public ArrayList<Mod> getMods() {
+    public List<Mod> getMods() {
         return mods;
     }
 

@@ -10,6 +10,7 @@ import v1.entities.multiplayer.MatchScore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game implements OsuEntity {
     private final long gameId;
@@ -24,9 +25,9 @@ public class Game implements OsuEntity {
     private final ScoringType scoringType;
     private final TeamType teamType;
 
-    private final ArrayList<Mod> mods;
+    private final List<Mod> mods;
 
-    private final ArrayList<MatchScore> matchScores = new ArrayList<>();
+    private final List<MatchScore> matchScores = new ArrayList<>();
 
     public Game(JsonObject json) {
         this.gameId = json.get("game_id").getAsLong();
@@ -77,11 +78,11 @@ public class Game implements OsuEntity {
         return teamType;
     }
 
-    public ArrayList<Mod> getMods() {
+    public List<Mod> getMods() {
         return mods;
     }
 
-    public ArrayList<MatchScore> getMatchScores() {
+    public List<MatchScore> getMatchScores() {
         return matchScores;
     }
 

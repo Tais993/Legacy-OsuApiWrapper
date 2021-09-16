@@ -2,6 +2,7 @@ package futures;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -26,7 +27,7 @@ public class MapFutureImpl<I, O> extends MapFuture<I, O> {
     }
 
     @Override
-    public I runSync() throws Exception {
-        return null;
+    public I runSync() throws IOException, InterruptedException {
+        return map.apply(future.runSync());
     }
 }

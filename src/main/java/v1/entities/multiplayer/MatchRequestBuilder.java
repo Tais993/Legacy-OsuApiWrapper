@@ -3,7 +3,7 @@ package v1.entities.multiplayer;
 import v1.ApiHandler;
 import v1.entities.RequestBuilder;
 
-public class MatchRequestBuilder extends RequestBuilder<MatchRequestBuilder> {
+public class MatchRequestBuilder extends RequestBuilder {
     private String key;
 
     private long matchId;
@@ -20,7 +20,7 @@ public class MatchRequestBuilder extends RequestBuilder<MatchRequestBuilder> {
     }
 
     @Override
-    public String getUrl() {
+    public String toUrl() {
         StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_match?k=").append(key);

@@ -45,130 +45,123 @@ public class ApiHandler {
     }
 
     public Future<BeatmapImpl> retrieveBeatmap(BeatmapRequestBuilder beatmapRequestBuilder) {
-        Callable<BeatmapImpl> callable = () -> {
-            beatmapRequestBuilder.setKey(key);
-            System.out.println(beatmapRequestBuilder.getUrl());
-
-            return BeatmapImpl.getBeatmapFromJson(getJsonArray(beatmapRequestBuilder.getUrl()).get(0).getAsJsonObject());
-        };
-
-        return new FutureImpl<>(callable, executorService);
+        return null;
     }
-
-    public Future<Set<BeatmapImpl>> retrieveBeatmaps(BeatmapRequestBuilder beatmapRequestBuilder) {
-        Callable<Set<BeatmapImpl>> callable = () -> {
-            Set<BeatmapImpl> beatmaps = new HashSet<>();
-
-            beatmapRequestBuilder.setKey(key);
-            JsonArray json = getJsonArray(beatmapRequestBuilder.getUrl());
-
-            json.forEach(jsonElement -> beatmaps.add(BeatmapImpl.getBeatmapFromJson(jsonElement.getAsJsonObject())));
-
-            return beatmaps;
-        };
-
-        return new FutureImpl<>(callable, executorService);
-    }
-
-    public FutureImpl<User> retrieveUser(UserRequestBuilder userRequestBuilder) {
-        Callable<User> callable = ()  -> {
-
-            userRequestBuilder.setKey(key);
-            System.out.println(userRequestBuilder.getUrl());
-
-            return new User(getJsonArray(userRequestBuilder.getUrl()).get(0).getAsJsonObject());
-        };
-
-        return new FutureImpl<>(callable, executorService);
-    }
-
-    public Future<Set<Score>> retrieveScores(ScoresRequestBuilder scoresRequestBuilder) {
-        Callable<Set<Score>> callable = () -> {
-            Set<Score> scores = new HashSet<>();
-
-            scoresRequestBuilder.setKey(key);
-
-            JsonArray json = getJsonArray(scoresRequestBuilder.getUrl());
-
-            json.forEach(jsonElement -> scores.add(new Score(jsonElement.getAsJsonObject())));
-
-            return scores;
-        };
-
-        return new FutureImpl<>(callable, executorService);
-    }
-
-    public Future<Set<BestPerformance>> retrieveBestPerformance(BestPerformanceRequestBuilder bestPerformanceRequestBuilder) {
-        Callable<Set<BestPerformance>> callable = () -> {
-            Set<BestPerformance> bestPerformances = new HashSet<>();
-
-            bestPerformanceRequestBuilder.setKey(key);
-
-            JsonArray json = getJsonArray(bestPerformanceRequestBuilder.getUrl());
-
-            System.out.println(json);
-
-            json.forEach(jsonElement -> bestPerformances.add(new BestPerformance(jsonElement.getAsJsonObject())));
-
-            return bestPerformances;
-        };
-
-        return new FutureImpl<>(callable, executorService);
-    }
-
-    public FutureImpl<Match> retrieveMatchInfo(MatchRequestBuilder matchRequestBuilder) {
-        Callable<Match> callable = ()  -> {
-
-            matchRequestBuilder.setKey(key);
-            System.out.println(matchRequestBuilder.getUrl());
-
-            return new Match(getJsonObject(matchRequestBuilder.getUrl()));
-        };
-
-        return new FutureImpl<>(callable, executorService);
-    }
-
-    public FutureImpl<Replay> retrieveReplay(ReplayRequestBuilder replayRequestBuilder) {
-        Callable<Replay> callable = ()  -> {
-
-            replayRequestBuilder.setKey(key);
-
-            return new Replay(getJsonObject(replayRequestBuilder.getUrl()));
-        };
-
-        return new FutureImpl<>(callable, executorService);
-    }
-
-    protected static JsonObject getJsonObject(String urlString) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(urlString))
-                .GET()
-                .build();
-
-        String jsonString = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        return new Gson().fromJson(jsonString, JsonObject.class);
-    }
-
-    protected static JsonArray getJsonArray(String urlString) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(urlString))
-                .GET()
-                .build();
-
-        String jsonString = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        return new Gson().fromJson(jsonString, JsonArray.class);
-    }
-
-    protected static JsonElement getJsonElement(String urlString) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(urlString))
-                .GET()
-                .build();
-
-        String jsonString = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        return new Gson().fromJson(jsonString, JsonElement.class);
-    }
+//
+//    public Future<Set<BeatmapImpl>> retrieveBeatmaps(BeatmapRequestBuilder beatmapRequestBuilder) {
+//        Callable<Set<BeatmapImpl>> callable = () -> {
+//            Set<BeatmapImpl> beatmaps = new HashSet<>();
+//
+//            beatmapRequestBuilder.setKey(key);
+//            JsonArray json = getJsonArray(beatmapRequestBuilder.toUrl());
+//
+//            json.forEach(jsonElement -> beatmaps.add(BeatmapImpl.getBeatmapFromJson(jsonElement.getAsJsonObject())));
+//
+//            return beatmaps;
+//        };
+//
+//        return new FutureImpl<>(callable, executorService);
+//    }
+//
+//    public FutureImpl<User> retrieveUser(UserRequestBuilder userRequestBuilder) {
+//        Callable<User> callable = ()  -> {
+//
+//            userRequestBuilder.setKey(key);
+//            System.out.println(userRequestBuilder.toUrl());
+//
+//            return new User(getJsonArray(userRequestBuilder.toUrl()).get(0).getAsJsonObject());
+//        };
+//
+//        return new FutureImpl<>(callable, executorService);
+//    }
+//
+//    public Future<Set<Score>> retrieveScores(ScoresRequestBuilder scoresRequestBuilder) {
+//        Callable<Set<Score>> callable = () -> {
+//            Set<Score> scores = new HashSet<>();
+//
+//            scoresRequestBuilder.setKey(key);
+//
+//            JsonArray json = getJsonArray(scoresRequestBuilder.toUrl());
+//
+//            json.forEach(jsonElement -> scores.add(new Score(jsonElement.getAsJsonObject())));
+//
+//            return scores;
+//        };
+//
+//        return new FutureImpl<>(callable, executorService);
+//    }
+//
+//    public Future<Set<BestPerformance>> retrieveBestPerformance(BestPerformanceRequestBuilder bestPerformanceRequestBuilder) {
+//        Callable<Set<BestPerformance>> callable = () -> {
+//            Set<BestPerformance> bestPerformances = new HashSet<>();
+//
+//            bestPerformanceRequestBuilder.setKey(key);
+//
+//            JsonArray json = getJsonArray(bestPerformanceRequestBuilder.toUrl());
+//
+//            System.out.println(json);
+//
+//            json.forEach(jsonElement -> bestPerformances.add(new BestPerformance(jsonElement.getAsJsonObject())));
+//
+//            return bestPerformances;
+//        };
+//
+//        return new FutureImpl<>(callable, executorService);
+//    }
+//
+//    public FutureImpl<Match> retrieveMatchInfo(MatchRequestBuilder matchRequestBuilder) {
+//        Callable<Match> callable = ()  -> {
+//
+//            matchRequestBuilder.setKey(key);
+//            System.out.println(matchRequestBuilder.toUrl());
+//
+//            return new Match(getJsonObject(matchRequestBuilder.toUrl()));
+//        };
+//
+//        return new FutureImpl<>(callable, executorService);
+//    }
+//
+//    public FutureImpl<Replay> retrieveReplay(ReplayRequestBuilder replayRequestBuilder) {
+//        Callable<Replay> callable = ()  -> {
+//
+//            replayRequestBuilder.setKey(key);
+//
+//            return new Replay(getJsonObject(replayRequestBuilder.toUrl()));
+//        };
+//
+//        return new FutureImpl<>(callable, executorService);
+//    }
+//
+//    protected static JsonObject getJsonObject(String urlString) throws IOException, InterruptedException {
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create(urlString))
+//                .GET()
+//                .build();
+//
+//        String jsonString = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+//        return new Gson().fromJson(jsonString, JsonObject.class);
+//    }
+//
+//    protected static JsonArray getJsonArray(String urlString) throws IOException, InterruptedException {
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create(urlString))
+//                .GET()
+//                .build();
+//
+//        String jsonString = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+//        return new Gson().fromJson(jsonString, JsonArray.class);
+//    }
+//
+//    protected static JsonElement getJsonElement(String urlString) throws IOException, InterruptedException {
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create(urlString))
+//                .GET()
+//                .build();
+//
+//        String jsonString = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+//        return new Gson().fromJson(jsonString, JsonElement.class);
+//    }
 }

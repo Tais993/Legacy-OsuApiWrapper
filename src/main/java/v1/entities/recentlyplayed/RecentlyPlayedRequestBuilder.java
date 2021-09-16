@@ -5,7 +5,7 @@ import v1.entities.RequestBuilder;
 import v1.entities.global.Mode;
 import v1.entities.global.Type;
 
-public class RecentlyPlayedRequestBuilder extends RequestBuilder<RecentlyPlayedRequestBuilder> {
+public class RecentlyPlayedRequestBuilder extends RequestBuilder {
     private String key;
 
     private String user;
@@ -43,7 +43,7 @@ public class RecentlyPlayedRequestBuilder extends RequestBuilder<RecentlyPlayedR
     }
 
     @Override
-    public String getUrl() {
+    public String toUrl() {
         StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_user_recent?k=").append(key);

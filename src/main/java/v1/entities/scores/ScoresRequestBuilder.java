@@ -9,7 +9,7 @@ import v1.entities.global.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ScoresRequestBuilder extends RequestBuilder<ScoresRequestBuilder> {
+public class ScoresRequestBuilder extends RequestBuilder {
     private String key;
 
     private long beatmapId;
@@ -62,7 +62,7 @@ public class ScoresRequestBuilder extends RequestBuilder<ScoresRequestBuilder> {
     }
 
     @Override
-    public String getUrl() {
+    public String toUrl() {
         StringBuilder url = new StringBuilder(ApiHandler.startUrl);
 
         url.append("get_scores?k=").append(key);

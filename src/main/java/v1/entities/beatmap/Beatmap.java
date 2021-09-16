@@ -3,6 +3,7 @@ package v1.entities.beatmap;
 import org.jetbrains.annotations.NotNull;
 import v1.entities.global.Length;
 import v1.entities.global.Mode;
+import v1.entities.user.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -108,6 +109,8 @@ public interface Beatmap {
     double diffSpeed();
 
     double difficultyRating();
+
+    User retrieveCreator();
 
     @NotNull
     String beatmapCoverImageUrl();

@@ -27,7 +27,7 @@ public enum Mode {
                 return mode;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Invalid ID");
     }
 
     @Override
